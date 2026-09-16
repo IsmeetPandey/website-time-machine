@@ -1,35 +1,30 @@
 # Website Time Machine ⏳
 
-A versioned observatory for the public web: capture a page over time, compare versions, and explain what changed.
+**Capture a public webpage today. Compare it with its future self.**
 
-## Product thesis
+This project stores normalized page text snapshots, hashes each snapshot, and produces a lightweight change report on the next capture.
 
-Screenshots preserve appearance, but a website is more than pixels. This project treats a page as a changing system of DOM structure, text, resources, metadata, and performance signals.
+## Run locally
 
-## Planned analysis
-
-```text
-Scheduled capture → snapshot → normalized representation → diff engine → visual timeline
+```bash
+python -m venv .venv
+# Windows: .venv\\Scripts\\activate
+# macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app:app --reload
 ```
 
-A comparison can report:
+Open `http://127.0.0.1:8000`.
 
-- URL and redirect changes
-- DOM structure changes
-- text additions/removals
-- image and script changes
-- page-size/resource-count changes
-- screenshot differences
+## Current MVP
 
-## Build phases
+- Public HTTP(S) URL capture
+- SQLite snapshot history
+- SHA-256 content fingerprints
+- Previous-vs-current word delta
+- Simple similarity measurement
+- Minimal browser UI
 
-- **Phase 1:** deterministic snapshots with Playwright
-- **Phase 2:** structured DOM/text/resource diffing
-- **Phase 3:** side-by-side visual comparison and timeline
-- **Phase 4:** scheduled captures + exportable reports
+## Design direction
 
-## Intended stack
-
-Python + Playwright + FastAPI + SQLite + browser-based visualization.
-
-Only capture public pages you are authorized to analyze.
+The long-term version will add screenshot snapshots, DOM-aware diffs, resource changes, and a visual timeline. The MVP deliberately starts with a reliable text snapshot primitive.
