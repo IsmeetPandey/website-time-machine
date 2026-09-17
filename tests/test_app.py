@@ -1,6 +1,10 @@
+import sys
+from pathlib import Path
+
 from fastapi.testclient import TestClient
 
-from app import app, normalize_text, similarity
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from app import app, normalize_text, similarity  # noqa: E402
 
 client = TestClient(app)
 
