@@ -26,4 +26,10 @@ def test_similarity_empty_and_identical():
 
 def test_capture_rejects_non_http_urls():
     response = client.post('/api/capture', json={'url': 'ftp://example.com'})
+    assert response.status_code == 422
+
+
+def test_capture_rejects_local_targets(monkeypatch):
+    monkeypatch.setattr('app.socket.getaddrinfo', lambda *args, **kwargs: [('', '', '', '', ('127.0.0.1', 0))])
+    response = client.post('/api/capture', json={'url': 'http://localhost'})
     assert response.status_code == 400
